@@ -59,13 +59,31 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     var saturdaySegueID = "segueFromSaturday"
     var sundaySegueID = "segueFromSunday"
     
+    let weekKey = "weekNumber"
+    let defaults = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        let db = Firestore.firestore()
-//        db.collection("test").addDocument(data: ["name": "david"])
+      //  let db = Firestore.firestore()
+       // let weekNumber = chooseWeekTextField.text
+        
+         
+        
+        
+
+        
+        
+        // om vi lyckas läsa in något i weeksaved -> ska köra metoden updateDatesfrom....
+        
+       // defaults.set(Int(weekNumber), forKey: "weekSaved")
+        
+
+        
+        
+        
         
         
 //        dateViewTidRapp?.layer.cornerRadius = 5
@@ -76,6 +94,19 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         chooseWeekTextField?.inputView = picker
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let weekSaved = defaults.integer(forKey: weekKey)
+        if weekSaved != 0 {
+            
+            updateDatesFrom(weekNumber: weekSaved)
+            chooseWeekTextField.text = String(weekSaved)
+//            arbetsplatsMonday.text = 
+            
+        }
+            
     }
     
  
@@ -124,9 +155,15 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         chooseWeekTextField.text = chooseWeekArray[row]
-        if let weekNumber = Int(chooseWeekArray[row]) {
+        guard let weekNumber = Int(chooseWeekArray[row]) else {return}
             updateDatesFrom(weekNumber: weekNumber)
-        }
+        
+        
+        // spara weeknumber i user defaults
+        defaults.set(weekNumber, forKey: weekKey)
+        
+        
+        
         
         self.view.endEditing(false)
     }

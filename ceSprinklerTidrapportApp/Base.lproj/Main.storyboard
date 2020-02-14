@@ -10,9 +10,9 @@
         <!--startLogIn-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="startLogIn" customClass="TimeRegisterSummaryViewController" customModule="ceSprinklerTidrapportApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="startLogIn" customClass="LogInViewController" customModule="ceSprinklerTidrapportApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <userGuides>
                             <userLayoutGuide location="16" affinity="minX"/>
@@ -27,7 +27,7 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dod-qX-Vha">
-                                <rect key="frame" x="16" y="287" width="343" height="50"/>
+                                <rect key="frame" x="16" y="267" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Bym-XA-Ttl"/>
                                 </constraints>
@@ -35,7 +35,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M6S-vQ-IPU">
-                                <rect key="frame" x="16" y="465" width="343" height="45"/>
+                                <rect key="frame" x="16" y="445" width="343" height="45"/>
                                 <color key="backgroundColor" red="0.16189503669999999" green="0.26297652719999998" blue="0.56865864990000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="9Kc-0L-Vn4"/>
@@ -50,20 +50,19 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="logInButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fiF-A1-Uf6"/>
-                                    <segue destination="fP7-ll-yu6" kind="show" id="btX-YL-Do8"/>
+                                    <action selector="logInButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6CJ-4m-CZS"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lösenord" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Ys-MR-41V">
-                                <rect key="frame" x="16" y="357" width="343" height="50"/>
+                                <rect key="frame" x="16" y="337" width="343" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="vZ5-Mb-Zfy"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logga in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yho-Nj-KNe">
-                                <rect key="frame" x="16" y="230" width="97" height="35"/>
+                                <rect key="frame" x="16" y="210" width="97" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="Joe-Wc-CcA"/>
                                     <constraint firstAttribute="width" constant="97" id="Vp2-BM-wtU"/>
@@ -107,6 +106,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="vjT-lk-3q0"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="dod-qX-Vha" id="Dvl-HB-cXf"/>
+                        <outlet property="passwordTextField" destination="6Ys-MR-41V" id="uhH-A1-b3S"/>
+                        <segue destination="fP7-ll-yu6" kind="show" identifier="segueToHomeViewController" id="KHu-in-u4w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -115,13 +119,13 @@
         <!--homePage-->
         <scene sceneID="Edx-LY-QUk">
             <objects>
-                <viewController id="fP7-ll-yu6" userLabel="homePage" sceneMemberID="viewController">
+                <viewController id="fP7-ll-yu6" userLabel="homePage" customClass="HomeViewController" customModule="ceSprinklerTidrapportApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IBg-xX-h9Q">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="emj-ry-lFg" userLabel="minaTidrapporter">
-                                <rect key="frame" x="193" y="74" width="170" height="192"/>
+                                <rect key="frame" x="193" y="30" width="170" height="192"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVI-Qm-Qyb">
                                         <rect key="frame" x="0.0" y="-0.5" width="170" height="169"/>
@@ -151,7 +155,7 @@
                                 <color key="backgroundColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="VeN-SD-4ei" userLabel="minaProjekt">
-                                <rect key="frame" x="12" y="278" width="170" height="191"/>
+                                <rect key="frame" x="12" y="234" width="170" height="191"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evX-l2-SkF">
                                         <rect key="frame" x="0.0" y="-2" width="170" height="173.5"/>
@@ -162,9 +166,6 @@
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" backgroundImage="doc.on.clipboard" catalog="system"/>
-                                        <connections>
-                                            <segue destination="pjG-Tj-jMw" kind="show" id="Of5-oq-Nf3"/>
-                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mina Projekt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zpG-2j-vcT">
                                         <rect key="frame" x="0.0" y="168" width="170" height="23"/>
@@ -179,7 +180,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="oyt-hw-vyU" userLabel="kalender">
-                                <rect key="frame" x="193" y="278" width="170" height="191"/>
+                                <rect key="frame" x="193" y="234" width="170" height="191"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x82-IA-WnD">
                                         <rect key="frame" x="0.0" y="1" width="170" height="167.5"/>
@@ -203,18 +204,8 @@
                                     <constraint firstAttribute="height" constant="191" id="G9J-7b-Xhh"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lcE-SA-2rU">
-                                <rect key="frame" x="135" y="608" width="105" height="39"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="105" id="2wv-an-lBt"/>
-                                    <constraint firstAttribute="height" constant="39" id="65r-8G-lAK"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="23"/>
-                                <color key="tintColor" red="0.16189503669999999" green="0.26297652719999998" blue="0.56865864990000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" title="Logga Ut"/>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="-2" translatesAutoresizingMaskIntoConstraints="NO" id="cON-Mu-IWW" userLabel="nyTidrapport">
-                                <rect key="frame" x="12" y="74" width="170" height="192"/>
+                                <rect key="frame" x="12" y="30" width="170" height="192"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ype-t7-sTS">
                                         <rect key="frame" x="0.0" y="0.5" width="170" height="169"/>
@@ -226,7 +217,7 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" backgroundImage="timer" catalog="system"/>
                                         <connections>
-                                            <segue destination="1Dk-G8-E2h" kind="show" id="nfz-Wy-RRd"/>
+                                            <segue destination="1Dk-G8-E2h" kind="show" id="pKf-4w-nOp"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ny Tidrapport" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EA6-y1-khv">
@@ -242,23 +233,40 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qq9-U2-2in">
+                                <rect key="frame" x="138.5" y="581" width="98" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="IYB-lk-lBE"/>
+                                    <constraint firstAttribute="width" constant="98" id="j0F-Oo-MBQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SinhalaSangamMN" family="Sinhala Sangam MN" pointSize="25"/>
+                                <state key="normal" title="Logga Ut">
+                                    <color key="titleColor" red="0.16189503669999999" green="0.26297652719999998" blue="0.56865864990000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="logOutButton:" destination="fP7-ll-yu6" eventType="touchUpInside" id="rYv-a9-xkm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="emj-ry-lFg" firstAttribute="top" secondItem="st6-0m-PQn" secondAttribute="top" constant="30" id="0GN-2T-Nog"/>
+                            <constraint firstItem="st6-0m-PQn" firstAttribute="bottom" secondItem="qq9-U2-2in" secondAttribute="bottom" constant="20" id="5f7-6o-Uf7"/>
                             <constraint firstItem="VeN-SD-4ei" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" constant="-90.5" id="6FG-dh-nYZ"/>
                             <constraint firstItem="emj-ry-lFg" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" constant="90.5" id="ADQ-Cb-c85"/>
                             <constraint firstItem="cON-Mu-IWW" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" constant="-90.5" id="Bww-Fk-5d2"/>
+                            <constraint firstItem="qq9-U2-2in" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" id="NzA-pA-MHh"/>
                             <constraint firstItem="cON-Mu-IWW" firstAttribute="top" secondItem="st6-0m-PQn" secondAttribute="top" constant="30" id="Q2j-4x-JA2"/>
                             <constraint firstItem="VeN-SD-4ei" firstAttribute="top" secondItem="cON-Mu-IWW" secondAttribute="bottom" constant="12" id="UWL-R6-bkV"/>
                             <constraint firstItem="oyt-hw-vyU" firstAttribute="top" secondItem="emj-ry-lFg" secondAttribute="bottom" constant="12" id="dbg-JF-wy7"/>
                             <constraint firstItem="oyt-hw-vyU" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" constant="90.5" id="e3y-bM-gdx"/>
-                            <constraint firstItem="lcE-SA-2rU" firstAttribute="centerX" secondItem="IBg-xX-h9Q" secondAttribute="centerX" id="mBj-wM-8p7"/>
-                            <constraint firstItem="st6-0m-PQn" firstAttribute="bottom" secondItem="lcE-SA-2rU" secondAttribute="bottom" constant="20" id="o4H-59-2VH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="st6-0m-PQn"/>
                     </view>
                     <navigationItem key="navigationItem" title="Inloggad som Robin" id="al8-Qb-DlW"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="segueToLogInController" id="z9o-oA-rvA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXb-kN-ob3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1236,6 +1244,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5ZP-zj-rsD"/>
-        <segue reference="9Ub-9g-8qq"/>
+        <segue reference="pKf-4w-nOp"/>
+        <segue reference="z9o-oA-rvA"/>
     </inferredMetricsTieBreakers>
 </document>

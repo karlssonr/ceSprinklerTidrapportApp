@@ -34,12 +34,27 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
    
     var db : Firestore!
     
+    var docId : String?
+    
 //    var answerDagTrakt : String?
 //    var answerNattTrakt : String?
 //    var answerEgetBoendeTrakt : String?
 
     
-    
+//    guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+//         let reportRef = db.collection("users").document(currentUserId).collection("TimeReportInfos")
+//
+//         if let id = docId { // om dokument finns skriv över det
+//             do {
+//                 try reportRef.document(id).setData(from: timeReportSummary)
+//             } catch {}
+//         } else { // om inte finns ngt document skapa nytt
+//             do {
+//                 try reportRef.addDocument(from: timeReportSummary)
+//             } catch {}
+//         }
+//       //  print("saved report \(timeReportSummary)")
+//     }
     
     
 
@@ -49,7 +64,9 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         
         db = Firestore.firestore()
         
-        let query = db.collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
         
         query.getDocuments() {
             (snapshot , error) in
@@ -65,6 +82,8 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                 switch result {
                 case .success(let info) :
                     if let info = info {
+                        self.docId = document.documentID
+                        
                         self.arbetsplatsTextField.text = info.arbetsPlats
                         self.projektNrTextField.text = info.projektNummer
                         self.hoursTimeRegisterTextField.text = info.timmar
@@ -76,9 +95,37 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                         
                         print(info.dagTrakt)
                         
+                        
+                        if info.dagTrakt == true {
+                            self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                        }
+                            else {
+                            self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                            }
+                        
+                        if info.nattTrakt == true {
+                            self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                        }
+                            else {
+                            self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                            }
+                        
+                        if info.egetBoende == true {
+                            self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                        }
+                            else {
+                            self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                            }
+                        
+                        
                     }
                 case .failure(let error) :
                     print("")
+                    
+                    
                 }
                 
                 
@@ -217,12 +264,28 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         
         timeReportSummary = TimeReportInfo(arbetsPlats: arbetsPlats, projektNummer: projektNummer, timmar: timmar, timmarLagbas: timmarLagbas, timmarLopande: timmarLopande, dagTrakt: dagTrakt, nattTrakt: nattTrakt, egetBoende: egetBoende, dates: dates)
         
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        let reportRef = db.collection("users").document(currentUserId).collection("TimeReportInfos")
         
-        do {
-            try db.collection("TimeReportInfos").addDocument(from: timeReportSummary)
-        } catch {}
-        
+        if let id = docId { // om dokument finns skriv över det
+            do {
+                try reportRef.document(id).setData(from: timeReportSummary)
+            } catch {}
+        } else { // om inte finns ngt document skapa nytt
+            do {
+                try reportRef.addDocument(from: timeReportSummary)
+            } catch {}
+        }
       //  print("saved report \(timeReportSummary)")
+    }
+    
+    func overwriteDataInDatabase() {
+        
+        db = Firestore.firestore()
+        //let query = db.collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
+        
+       // query
+        
     }
 
     // MARK: - Table view data source
