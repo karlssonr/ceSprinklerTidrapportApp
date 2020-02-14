@@ -41,21 +41,6 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
 //    var answerEgetBoendeTrakt : String?
 
     
-//    guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-//         let reportRef = db.collection("users").document(currentUserId).collection("TimeReportInfos")
-//
-//         if let id = docId { // om dokument finns skriv över det
-//             do {
-//                 try reportRef.document(id).setData(from: timeReportSummary)
-//             } catch {}
-//         } else { // om inte finns ngt document skapa nytt
-//             do {
-//                 try reportRef.addDocument(from: timeReportSummary)
-//             } catch {}
-//         }
-//       //  print("saved report \(timeReportSummary)")
-//     }
-    
     
 
     
