@@ -67,6 +67,9 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                 switch result {
                 case .success(let info) :
                     if let info = info {
+                        
+                        
+//                        let str = info.toString()
                         self.docId = document.documentID
                         
                         self.arbetsplatsTextField.text = info.arbetsPlats

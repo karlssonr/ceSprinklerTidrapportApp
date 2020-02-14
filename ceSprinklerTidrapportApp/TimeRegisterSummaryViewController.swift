@@ -61,13 +61,18 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     let weekKey = "weekNumber"
     let defaults = UserDefaults.standard
+    let userDefaultsRowKey = "defaultPickerRow"
+    
+    var db : Firestore!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let defaultPickerRow = initialPickerRow()
         
-      //  let db = Firestore.firestore()
+        
+        db = Firestore.firestore()
        // let weekNumber = chooseWeekTextField.text
         
          
@@ -96,6 +101,44 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
     }
     
+    @IBAction func skickaButtonPressed(_ sender: UIButton) {
+        
+//        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+//
+//                let query = db.collection("users").document(currentUserId).collection("TimeReportInfos")
+//
+//                query.getDocuments() {
+//                    (snapshot , error) in
+//
+//                    guard let documents = snapshot?.documents else {return}
+//
+//                    if documents.count > 0 {
+//                        let document = documents[0]
+//                        let result = Result {
+//                            try document.data(as: TimeReportInfo.self)
+//                        }
+//
+//                        switch result {
+//                        case .success(let info) :
+//                            if let info = info {
+//
+//
+//                                let str = info.toString()
+//
+//                            }
+//
+//                                case .failure(let error) :
+//                                    print("")
+//
+//
+//                                }
+//
+//
+//
+    }
+
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         
         let weekSaved = defaults.integer(forKey: weekKey)
@@ -111,10 +154,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
  
     
-    @IBAction func logInButtonPressed(_ sender: Any) {
-        
-        
-    }
+
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let timeRegisterVC = segue.destination as? TimeRegisterViewController else {return}
@@ -166,6 +206,17 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         
         self.view.endEditing(false)
+        saveSelectedRow(row: row)
+    }
+    
+    func initialPickerRow() {
+        let savedRow = UserDefaults.standard.object(forKey: userDefaultsRowKey) as? Int
+        
+        if let row = savedRow {
+//            return row
+        } else {
+            return
+        }
     }
     
     func updateDatesFrom(weekNumber: Int) {
@@ -227,6 +278,11 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
     }
     
+    func saveSelectedRow(row: Int) {
+        let defaults = UserDefaults.standard
+        defaults.set(row, forKey: userDefaultsRowKey)
+        defaults.synchronize()
+    }
     
 }
 

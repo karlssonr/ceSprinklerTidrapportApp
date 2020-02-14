@@ -39,7 +39,7 @@ class TimeReportInfo : Codable {
         } else {
             self.timmar = ""
         }
-    
+        
         if let timLagbas = timmarLagbas {
             self.timmarLagbas = timLagbas
         } else {
@@ -52,23 +52,42 @@ class TimeReportInfo : Codable {
             self.timmarLopande = ""
         }
         
-            self.dagTrakt = dagTrakt
+        self.dagTrakt = dagTrakt
+        self.nattTrakt = nattTrakt
+        
+        self.egetBoende = egetBoende
 
-       
-            self.nattTrakt = nattTrakt
-
+        self.dates = dates
         
-            self.egetBoende = egetBoende
-
-        
-            self.dates = dates
-        
-        
-        
-
     }
     
-   
+    func toString() -> String {
+        var str = ""
         
+        str = arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
+        
+        if dagTrakt {
+            str += "" + ","
+        } else {
+            str += "X" + ","
+        }
+        
+        if nattTrakt {
+            str += "" + ","
+        } else {
+            str += "X" + ","
+        }
+        
+        if egetBoende {
+            str += "" + ","
+        } else {
+            str += "X" + ","
+        }
+        
+        return str
     }
+    
+    
+    
+}
 
