@@ -26,7 +26,9 @@ class LogInViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+    /*
+     Test comment
+     */
     override func viewDidAppear(_ animated: Bool) {
         if let user = self.auth.currentUser {
             performSegue(withIdentifier: segueID, sender: self)
