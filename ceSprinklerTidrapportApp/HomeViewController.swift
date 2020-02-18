@@ -28,7 +28,10 @@ class HomeViewController: UIViewController {
         
         do {
             try auth.signOut()
-            performSegue(withIdentifier: segueIDToLogInController, sender: self)
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+
+//            performSegue(withIdentifier: segueIDToLogInController, sender: self)
         }
         catch {}
         
@@ -41,18 +44,6 @@ class HomeViewController: UIViewController {
     }
     
     
-    
-//    func athenticateUserAndConfigureView() {
-//
-//        if Auth.auth().currentUser == nil {
-//            DispatchQueue.main.async {
-//                let navController = UINavigationController(rootViewController: LogInViewController())
-//                self.present(navController, animated: true, completion: nil)
-//
-//            }
-//        }
-//    }
-//
     /*
     // MARK: - Navigation
 

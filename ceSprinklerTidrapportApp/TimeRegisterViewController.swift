@@ -55,76 +55,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         arbetsplatsTextField.delegate = self
         projektNrTextField.keyboardType = UIKeyboardType.numberPad
         
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
-        
-        query.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else {return}
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info) :
-                    if let info = info {
-                        
-                        
-//                        let str = info.toString()
-                        self.docId = document.documentID
-                        
-                        self.arbetsplatsTextField.text = info.arbetsPlats
-                        self.projektNrTextField.text = info.projektNummer
-                        self.hoursTimeRegisterTextField.text = info.timmar
-                        self.hoursTeamLeaderTextField.text = info.timmarLagbas
-                        self.hoursLopandeTextField.text = info.timmarLopande
-                        self.checkBoxDagTrakt.isEnabled = info.dagTrakt
-                        self.checkBoxNattTrakt.isEnabled = info.nattTrakt
-                        self.checkBoxEgetBoende.isEnabled = info.egetBoende
-                        
-                        print(info.dagTrakt)
-                        
-                        
-                        if info.dagTrakt == true {
-                            self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
-                        }
-                            else {
-                            self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
 
-                            }
-                        
-                        if info.nattTrakt == true {
-                            self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
-                        }
-                            else {
-                            self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
-
-                            }
-                        
-                        if info.egetBoende == true {
-                            self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
-                        }
-                            else {
-                            self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
-
-                            }
-                        
-                        
-                    }
-                case .failure(let error) :
-                    print("")
-                    
-                    
-                }
-                
-                
-            }
-        }
         
         pickerHourPickerView.tag = 1
         pickerHourTeamLeaderPickerView.tag = 2
@@ -147,17 +78,16 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
         
-        
-        
-//        checkBoxDagTrakt?.layer.cornerRadius = 5
-//        checkBoxDagTrakt?.layer.borderColor = UIColor.blue.cgColor
-//        checkBoxDagTrakt?.layer.borderWidth = 2
+
 
         print(datesFromTimeRegisterSummaryVC )
          let formater = DateFormatter()
         formater.dateFormat = "d LLL"
         print(formater.string(from: datesFromTimeRegisterSummaryVC!))
+        
+        getUserDocumentsFromFireBase()
         
         }
     
@@ -284,23 +214,88 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                 try reportRef.addDocument(from: timeReportSummary)
             } catch {}
         }
-      //  print("saved report \(timeReportSummary)")
+
     }
     
-    func overwriteDataInDatabase() {
-        
-        db = Firestore.firestore()
-        //let query = db.collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
-        
-       // query
-        
-    }
     
     func saveSelectedRow(row: Int) {
          let defaults = UserDefaults.standard
          defaults.set(row, forKey: userDefaultsRowKey)
          defaults.synchronize()
      }
+    
+    func getUserDocumentsFromFireBase() {
+                guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+                
+                let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
+                
+                query.getDocuments() {
+                    (snapshot , error) in
+                    
+                    guard let documents = snapshot?.documents else {return}
+                    
+                    if documents.count > 0 {
+                        let document = documents[0]
+                        let result = Result {
+                            try document.data(as: TimeReportInfo.self)
+                        }
+                        
+                        switch result {
+                        case .success(let info) :
+                            if let info = info {
+                                
+                                
+        //                        let str = info.toString()
+                                self.docId = document.documentID
+                                
+                                self.arbetsplatsTextField.text = info.arbetsPlats
+                                self.projektNrTextField.text = info.projektNummer
+                                self.hoursTimeRegisterTextField.text = info.timmar
+                                self.hoursTeamLeaderTextField.text = info.timmarLagbas
+                                self.hoursLopandeTextField.text = info.timmarLopande
+                                self.checkBoxDagTrakt.isEnabled = info.dagTrakt
+                                self.checkBoxNattTrakt.isEnabled = info.nattTrakt
+                                self.checkBoxEgetBoende.isEnabled = info.egetBoende
+                                
+                                print(info.dagTrakt)
+                                
+                                
+                                if info.dagTrakt == true {
+                                    self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                                }
+                                    else {
+                                    self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                                    }
+                                
+                                if info.nattTrakt == true {
+                                    self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                                }
+                                    else {
+                                    self.checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                                    }
+                                
+                                if info.egetBoende == true {
+                                    self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
+                                }
+                                    else {
+                                    self.checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
+
+                                    }
+                                
+                                
+                            }
+                        case .failure(let error) :
+                            print("")
+                            
+                            
+                        }
+                        
+                        
+                    }
+                }
+    }
        
 
     // MARK: - Table view data source

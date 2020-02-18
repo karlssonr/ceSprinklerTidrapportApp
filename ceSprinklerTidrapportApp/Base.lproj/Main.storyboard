@@ -267,7 +267,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Inloggad som Robin" id="al8-Qb-DlW"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="segueToLogInController" id="z9o-oA-rvA"/>
                         <segue destination="pjG-Tj-jMw" kind="show" identifier="segueToMinaProjektController" id="9H5-12-iGp"/>
                     </connections>
                 </viewController>
@@ -380,7 +379,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgb-HI-s6n">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fgb-HI-s6n">
                                         <rect key="frame" x="75" y="3" width="210" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="mUn-PZ-bLJ"/>
@@ -402,7 +401,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="push" identifier="segueFromMonday" id="g44-SX-AV3"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLF-rs-mkF">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLF-rs-mkF">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="39" id="2Vw-Uh-mF5"/>
@@ -454,7 +453,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUQ-Fw-EnC">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUQ-Fw-EnC">
                                         <rect key="frame" x="75" y="3" width="210" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="0Wk-i1-x7G"/>
@@ -476,7 +475,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromThuesday" id="9cV-uy-OMa"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmj-wh-ZZT">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pmj-wh-ZZT">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="C4d-55-8Mb"/>
@@ -530,7 +529,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XS8-wO-KzS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XS8-wO-KzS">
                                         <rect key="frame" x="75" y="3" width="210" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="2EV-ZH-h1l"/>
@@ -552,7 +551,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromWednesday" id="9cy-GG-nQi"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iam-MW-QK3">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iam-MW-QK3">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="39" id="2zC-O0-Biy"/>
@@ -605,7 +604,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4AC-x9-T2G">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4AC-x9-T2G">
                                         <rect key="frame" x="76" y="3" width="209" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="1W0-3v-8dx"/>
@@ -627,7 +626,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromThursday" id="PPT-RL-guO"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AvR-U0-9Qp">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AvR-U0-9Qp">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="39" id="Fdp-dX-u5d"/>
@@ -681,7 +680,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dph-Qa-ev7">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dph-Qa-ev7">
                                         <rect key="frame" x="75" y="3" width="210" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="9la-ha-uVh"/>
@@ -703,7 +702,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromFriday" id="ggN-7V-f6z"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouf-Jm-dEk">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouf-Jm-dEk">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="0tf-k0-123"/>
@@ -758,7 +757,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnR-w5-Qbw">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnR-w5-Qbw">
                                         <rect key="frame" x="76" y="3" width="209" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="foq-cq-Gw4"/>
@@ -780,7 +779,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromSaturday" id="8SH-8G-sZy"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxq-qU-d4b">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxq-qU-d4b">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="3t0-wN-YUS"/>
@@ -833,7 +832,7 @@
                                         <color key="textColor" red="0.035578913990000002" green="0.48322278260000001" blue="0.43529325720000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ahlsell" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7L-KN-9eo">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h7L-KN-9eo">
                                         <rect key="frame" x="75" y="3" width="210" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="54" id="F8G-CY-J0e"/>
@@ -855,7 +854,7 @@
                                             <segue destination="jCg-R9-ynZ" kind="show" identifier="segueFromSunday" id="5ZP-zj-rsD"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GT-GR-HrN">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8GT-GR-HrN">
                                         <rect key="frame" x="288" y="8.5" width="39" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="43" id="Txt-uF-1ih"/>
@@ -961,7 +960,7 @@
                         <outlet property="arbetsplatsSunday" destination="h7L-KN-9eo" id="e8X-8m-V6I"/>
                         <outlet property="arbetsplatsThuesday" destination="gUQ-Fw-EnC" id="q51-2B-lrI"/>
                         <outlet property="arbetsplatsThursday" destination="4AC-x9-T2G" id="1KN-LE-9MF"/>
-                        <outlet property="arbetsplatsWednesday" destination="4AC-x9-T2G" id="g6J-Qd-ngx"/>
+                        <outlet property="arbetsplatsWednesday" destination="XS8-wO-KzS" id="sqW-QI-c5h"/>
                         <outlet property="chooseWeekTextField" destination="N5D-BH-bU7" id="CEN-yR-Wpq"/>
                         <outlet property="dateViewTidRapp" destination="VR1-Gs-hJr" id="0Wq-H5-kjG"/>
                         <outlet property="fridayFromWeek" destination="G9o-TE-1kG" id="4BA-DX-odx"/>
@@ -1249,6 +1248,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="g44-SX-AV3"/>
-        <segue reference="D06-wa-z9B"/>
     </inferredMetricsTieBreakers>
 </document>

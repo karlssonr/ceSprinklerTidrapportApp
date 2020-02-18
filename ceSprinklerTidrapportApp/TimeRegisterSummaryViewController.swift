@@ -65,44 +65,49 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     var db : Firestore!
     
+    var wholeWeekInfo : [String]?
+    
+    var infoMonday : String?
+    var infoThuesday : String?
+    var infoWednesday : String?
+    var infoThursday : String?
+    var infoFriday : String?
+    var infoSaturday : String?
+    var infoSunday : String?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let defaultPickerRow = initialPickerRow()
-        
+
         
         db = Firestore.firestore()
-       // let weekNumber = chooseWeekTextField.text
         
-         
+
+        
         
         
 
         
         
         // om vi lyckas läsa in något i weeksaved -> ska köra metoden updateDatesfrom....
-        
-       // defaults.set(Int(weekNumber), forKey: "weekSaved")
-        
-
-        
-        
-        
-        
-        
-//        dateViewTidRapp?.layer.cornerRadius = 5
-//        dateViewTidRapp?.layer.borderColor = UIColor.lightGray.cgColor
-//        dateViewTidRapp?.layer.borderWidth = 2
+ 
         picker.delegate = self
         picker.dataSource = self
         
         chooseWeekTextField?.inputView = picker
         
+        
+
+        
     }
     
     @IBAction func skickaButtonPressed(_ sender: UIButton) {
   
+        sendAndSaveTimereport()
+        
+        print(infoMonday)
+        
     }
 
     
@@ -114,7 +119,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             
             updateDatesFrom(weekNumber: weekSaved)
             chooseWeekTextField.text = String(weekSaved)
-//            arbetsplatsMonday.text = 
+//            arbetsplatsMonday.text =
+//            setArbetsplatsFromDatesThroughFireBase()
             
         }
             
@@ -180,6 +186,22 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     func updateDatesFrom(weekNumber: Int) {
         dates = []
+        arbetsplatsMonday.text = ""
+        arbetsplatsThuesday.text = ""
+        arbetsplatsWednesday.text = ""
+        arbetsplatsThursday.text = ""
+        arbetsplatsFriday.text = ""
+        arbetsplatsSaturday.text = ""
+        arbetsplatsSunday.text = ""
+        
+        timmarMonday.text = "0"
+        timmarThuesday.text = "0"
+        timmarWednesday.text = "0"
+        timmarThursday.text = "0"
+        timmarFriday.text = "0"
+        timmarSaturday.text = "0"
+        timmarSunday.text = "0"
+        
         let todaysDate = Date()
         
         let calendar = Calendar.current
@@ -233,6 +255,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             sundayFromWeek.text = sun
         }
         
+        setArbetsplatsFromDatesThroughFireBase()
+        setTimmarFromDatesThroughFireBase()
         
         
     }
@@ -243,40 +267,558 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         defaults.synchronize()
     }
     
+    func setArbetsplatsFromDatesThroughFireBase() {
+        
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
+        
+        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
+        
+        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
+        
+        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
+        
+        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
+        
+        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
+        
+        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
+        
+        queryMonday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsMonday.text = info.arbetsPlats
+                     
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThuesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsThuesday.text = info.arbetsPlats
+                        
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryWednesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsWednesday.text = info.arbetsPlats
+                   
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThursday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsThursday.text = info.arbetsPlats
+                      
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryFriday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsFriday.text = info.arbetsPlats
+            
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySaturday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsSaturday.text = info.arbetsPlats
+                
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySunday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.arbetsplatsSunday.text = info.arbetsPlats
+        
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+    }
+    
+    func setTimmarFromDatesThroughFireBase()
+    {
+        
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
+        
+        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
+        
+        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
+        
+        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
+        
+        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
+        
+        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
+        
+        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
+        
+        queryMonday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.timmarMonday.text = info.timmar
+                     
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThuesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.timmarThuesday.text = info.timmar
+                        
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryWednesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.timmarWednesday.text = info.timmar
+                   
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThursday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.timmarThursday.text = info.timmar
+                      
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryFriday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                       self.timmarFriday.text = info.timmar
+            
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySaturday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                       self.timmarSaturday.text = info.timmar
+                
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySunday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.timmarSunday.text = info.timmar
+        
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+    }
+    
     func sendAndSaveTimereport() {
-              
-        //        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        //
-        //                let query = db.collection("users").document(currentUserId).collection("TimeReportInfos")
-        //
-        //                query.getDocuments() {
-        //                    (snapshot , error) in
-        //
-        //                    guard let documents = snapshot?.documents else {return}
-        //
-        //                    if documents.count > 0 {
-        //                        let document = documents[0]
-        //                        let result = Result {
-        //                            try document.data(as: TimeReportInfo.self)
-        //                        }
-        //
-        //                        switch result {
-        //                        case .success(let info) :
-        //                            if let info = info {
-        //
-        //
-        //                                let str = info.toString()
-        //
-        //                            }
-        //
-        //                                case .failure(let error) :
-        //                                    print("")
-        //
-        //
-        //                                }
-        //
-        //
-        //
+        
+//        self.infoMonday = ""
+//        self.infoThuesday = ""
+//        self.infoWednesday = ""
+//        self.infoThuesday = ""
+//        self.infoFriday = ""
+//        self.infoSaturday = ""
+//        self.infoSunday = ""
+//        
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
+        
+        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
+        
+        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
+        
+        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
+        
+        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
+        
+        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
+        
+        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
+        
+        
+        queryMonday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.infoMonday = info.toString()
+                     
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThuesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.infoThursday = info.toString()
+                        
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryWednesday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.infoWednesday = info.toString()
+                   
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryThursday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.infoThursday = info.toString()
+                      
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        queryFriday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                       self.infoFriday = info.toString()
+            
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySaturday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                       self.infoSaturday = info.toString()
+                
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+        
+        querySunday.getDocuments() {
+            (snapshot , error) in
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            if documents.count > 0 {
+                let document = documents[0]
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
+                }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        self.infoSunday = info.toString()
+
+                    }
+                case .failure(let error) :
+                    print("error")
+                }
+            }
+        }
+
+//        self.wholeWeekInfo += infoMonday
     }
     
 }
