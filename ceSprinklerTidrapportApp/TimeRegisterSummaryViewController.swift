@@ -102,39 +102,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     }
     
     @IBAction func skickaButtonPressed(_ sender: UIButton) {
-        
-//        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-//
-//                let query = db.collection("users").document(currentUserId).collection("TimeReportInfos")
-//
-//                query.getDocuments() {
-//                    (snapshot , error) in
-//
-//                    guard let documents = snapshot?.documents else {return}
-//
-//                    if documents.count > 0 {
-//                        let document = documents[0]
-//                        let result = Result {
-//                            try document.data(as: TimeReportInfo.self)
-//                        }
-//
-//                        switch result {
-//                        case .success(let info) :
-//                            if let info = info {
-//
-//
-//                                let str = info.toString()
-//
-//                            }
-//
-//                                case .failure(let error) :
-//                                    print("")
-//
-//
-//                                }
-//
-//
-//
+  
     }
 
     
@@ -208,16 +176,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         self.view.endEditing(false)
         saveSelectedRow(row: row)
     }
-    
-    func initialPickerRow() {
-        let savedRow = UserDefaults.standard.object(forKey: userDefaultsRowKey) as? Int
-        
-        if let row = savedRow {
-//            return row
-        } else {
-            return
-        }
-    }
+  
     
     func updateDatesFrom(weekNumber: Int) {
         dates = []
@@ -282,6 +241,42 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         let defaults = UserDefaults.standard
         defaults.set(row, forKey: userDefaultsRowKey)
         defaults.synchronize()
+    }
+    
+    func sendAndSaveTimereport() {
+              
+        //        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        //
+        //                let query = db.collection("users").document(currentUserId).collection("TimeReportInfos")
+        //
+        //                query.getDocuments() {
+        //                    (snapshot , error) in
+        //
+        //                    guard let documents = snapshot?.documents else {return}
+        //
+        //                    if documents.count > 0 {
+        //                        let document = documents[0]
+        //                        let result = Result {
+        //                            try document.data(as: TimeReportInfo.self)
+        //                        }
+        //
+        //                        switch result {
+        //                        case .success(let info) :
+        //                            if let info = info {
+        //
+        //
+        //                                let str = info.toString()
+        //
+        //                            }
+        //
+        //                                case .failure(let error) :
+        //                                    print("")
+        //
+        //
+        //                                }
+        //
+        //
+        //
     }
     
 }

@@ -12,7 +12,8 @@ import Firebase
 class HomeViewController: UIViewController {
     
     var auth :Auth!
-    let segueID = "segueToLogInController"
+    let segueIDToLogInController = "segueToLogInController"
+    let segueIDToMinaProjektController = "segueToMinaProjektController"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +28,17 @@ class HomeViewController: UIViewController {
         
         do {
             try auth.signOut()
-            performSegue(withIdentifier: segueID, sender: self)
+            performSegue(withIdentifier: segueIDToLogInController, sender: self)
         }
         catch {}
         
     }
     
+    @IBAction func minaProjektButton(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: segueIDToMinaProjektController, sender: self)
+        
+    }
     
     
     

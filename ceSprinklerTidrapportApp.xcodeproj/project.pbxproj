@@ -14,6 +14,7 @@
 		4A4ED9F523D9C1F5008C90CB /* TimeRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4ED9F423D9C1F5008C90CB /* TimeRegisterViewController.swift */; };
 		4A59348F23F42C6A00DA1433 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A59348E23F42C6A00DA1433 /* LogInViewController.swift */; };
 		4A59349123F441A400DA1433 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A59349023F441A400DA1433 /* HomeViewController.swift */; };
+		4A59349323F6F8BB00DA1433 /* MinaProjektViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A59349223F6F8BB00DA1433 /* MinaProjektViewController.swift */; };
 		4A5EABBE23E1FAD100BA2B16 /* TimeReportInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5EABBD23E1FAD100BA2B16 /* TimeReportInfo.swift */; };
 		4A5F459223E99D1C0081CFBF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A5F459123E99D1C0081CFBF /* GoogleService-Info.plist */; };
 		4A72448523E3F7C8008F7580 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A72448423E3F7C8008F7580 /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 		4A4ED9F423D9C1F5008C90CB /* TimeRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRegisterViewController.swift; sourceTree = "<group>"; };
 		4A59348E23F42C6A00DA1433 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		4A59349023F441A400DA1433 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		4A59349223F6F8BB00DA1433 /* MinaProjektViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinaProjektViewController.swift; sourceTree = "<group>"; };
 		4A5EABBD23E1FAD100BA2B16 /* TimeReportInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeReportInfo.swift; sourceTree = "<group>"; };
 		4A5F459123E99D1C0081CFBF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A72448423E3F7C8008F7580 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			children = (
 				4A72448423E3F7C8008F7580 /* AppDelegate.swift */,
 				4A3BBF3823D2074800CA58A9 /* Main.storyboard */,
+				4A59349223F6F8BB00DA1433 /* MinaProjektViewController.swift */,
 				4A59348E23F42C6A00DA1433 /* LogInViewController.swift */,
 				4A59349023F441A400DA1433 /* HomeViewController.swift */,
 				4A3BBF3623D2074800CA58A9 /* TimeRegisterSummaryViewController.swift */,
@@ -226,6 +229,7 @@
 				4A3BBF3723D2074800CA58A9 /* TimeRegisterSummaryViewController.swift in Sources */,
 				4A59349123F441A400DA1433 /* HomeViewController.swift in Sources */,
 				4A59348F23F42C6A00DA1433 /* LogInViewController.swift in Sources */,
+				4A59349323F6F8BB00DA1433 /* MinaProjektViewController.swift in Sources */,
 				4A72448523E3F7C8008F7580 /* AppDelegate.swift in Sources */,
 				4A4ED9F523D9C1F5008C90CB /* TimeRegisterViewController.swift in Sources */,
 				4A72448723E3F8BD008F7580 /* SceneDelegate.swift in Sources */,

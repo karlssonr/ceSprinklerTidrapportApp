@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import FirebaseFirestoreSwift
 
-class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource {
+class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource , UITextFieldDelegate{
     
     
     
@@ -35,6 +35,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
     var db : Firestore!
     
     var docId : String?
+    let userDefaultsRowKey = "defaultPickerRow"
     
 //    var answerDagTrakt : String?
 //    var answerNattTrakt : String?
@@ -48,6 +49,11 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         super.viewDidLoad()
         
         db = Firestore.firestore()
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyBoard))
+        view.addGestureRecognizer(tap)
+        arbetsplatsTextField.delegate = self
+        projektNrTextField.keyboardType = UIKeyboardType.numberPad
         
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         
@@ -156,9 +162,11 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         }
     
     @IBAction func saveInfoButton(_ sender: UIButton) {
+       
      saveTimeReportInfo()
-     //print(datesFromTimeRegisterSummaryVC)
-    //print(timeReportSummary)
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+
     }
     
     
@@ -207,7 +215,16 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         }
     }
     
-
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        arbetsplatsTextField.resignFirstResponder()
+        return true
+    }
+    
+    @objc func dissmissKeyBoard() {
+        
+        view.endEditing(true)
+        
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -227,14 +244,17 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         if pickerView.tag == 1 {
             hoursTimeRegisterTextField.text = String(howManyhoursTimeRegistration[row])
             self.view.endEditing(false)
+            saveSelectedRow(row: row)
         }
         if pickerView.tag == 2 {
             hoursTeamLeaderTextField.text = String(howManyhoursTimeRegistration[row])
             self.view.endEditing(false)
+            saveSelectedRow(row: row)
         }
         if pickerView.tag == 3 {
             hoursLopandeTextField.text = String(howManyhoursTimeRegistration[row])
             self.view.endEditing(false)
+            saveSelectedRow(row: row)
         }
     }
     
@@ -275,6 +295,13 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
        // query
         
     }
+    
+    func saveSelectedRow(row: Int) {
+         let defaults = UserDefaults.standard
+         defaults.set(row, forKey: userDefaultsRowKey)
+         defaults.synchronize()
+     }
+       
 
     // MARK: - Table view data source
 
