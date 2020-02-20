@@ -30,7 +30,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     @IBOutlet weak var arbetsplatsSaturday: UILabel!
     @IBOutlet weak var arbetsplatsSunday: UILabel!
     
- 
+    
     @IBOutlet weak var timmarMonday: UILabel!
     @IBOutlet weak var timmarThuesday: UILabel!
     @IBOutlet weak var timmarWednesday: UILabel!
@@ -39,7 +39,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     @IBOutlet weak var timmarSaturday: UILabel!
     @IBOutlet weak var timmarSunday: UILabel!
     
-
+    
     // content for picker view
     let chooseWeekArray = ["1","2","3","4","5","6","7","8","9","10",
                            "11","12","13","14","15","16","17","18","19","20",
@@ -65,7 +65,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     var db : Firestore!
     
-    var wholeWeekInfo : [String]?
+    var wholeWeekInfo = [TimeReportInfo]()
     
     var infoMonday : String?
     var infoThuesday : String?
@@ -79,37 +79,35 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         db = Firestore.firestore()
         
-
         
         
         
-
+        
+        
         
         
         // om vi lyckas läsa in något i weeksaved -> ska köra metoden updateDatesfrom....
- 
+        
         picker.delegate = self
         picker.dataSource = self
         
         chooseWeekTextField?.inputView = picker
         
         
-
+        
         
     }
     
     @IBAction func skickaButtonPressed(_ sender: UIButton) {
-  
-        sendAndSaveTimereport()
         
-        print(infoMonday)
+        createTextFile()
         
     }
-
+    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -119,17 +117,16 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             
             updateDatesFrom(weekNumber: weekSaved)
             chooseWeekTextField.text = String(weekSaved)
-//            arbetsplatsMonday.text =
-//            setArbetsplatsFromDatesThroughFireBase()
+    
             
         }
-            
+        
     }
     
- 
     
-
-
+    
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let timeRegisterVC = segue.destination as? TimeRegisterViewController else {return}
         if segue.identifier == mondaySegueID {
@@ -155,7 +152,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         }
     }
     
-
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -170,7 +167,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         chooseWeekTextField.text = chooseWeekArray[row]
         guard let weekNumber = Int(chooseWeekArray[row]) else {return}
-            updateDatesFrom(weekNumber: weekNumber)
+        updateDatesFrom(weekNumber: weekNumber)
         
         
         // spara weeknumber i user defaults
@@ -182,7 +179,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         self.view.endEditing(false)
         saveSelectedRow(row: row)
     }
-  
+    
     
     func updateDatesFrom(weekNumber: Int) {
         dates = []
@@ -206,23 +203,23 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         let calendar = Calendar.current
         let year = calendar.component(.year, from: todaysDate)
-
+        
         
         let components = DateComponents(weekOfYear: weekNumber, yearForWeekOfYear: year)
         guard let date = Calendar.current.date(from: components) else {return }
         
         let formater = DateFormatter()
         formater.dateFormat = "d LLL"
-       // print(formater.string(from: date) )
+        // print(formater.string(from: date) )
         
         if let monday = calendar.date(byAdding: .day, value: 1, to: date) {
             dates.append(monday)
-        
+            
             let mon = formater.string(from: monday)
             mondayFromWeek.text = mon
         }
         if let thuesday = calendar.date(byAdding: .day, value: 2, to: date) {
-             dates.append(thuesday)
+            dates.append(thuesday)
             let thu = formater.string(from: thuesday)
             thuesdayFromWeek.text = thu
             
@@ -254,12 +251,12 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             let sun = formater.string(from: sunday)
             sundayFromWeek.text = sun
         }
-        
-        setArbetsplatsFromDatesThroughFireBase()
-        setTimmarFromDatesThroughFireBase()
+
+        setUpDataArbetsplatsAndTimmar()
         
         
     }
+    
     
     func saveSelectedRow(row: Int) {
         let defaults = UserDefaults.standard
@@ -267,559 +264,111 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         defaults.synchronize()
     }
     
-    func setArbetsplatsFromDatesThroughFireBase() {
+    func setUpDataArbetsplatsAndTimmar() {
         
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
-        
-        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
-        
-        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
-        
-        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
-        
-        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
-        
-        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
-        
-        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
-        
-        queryMonday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsMonday.text = info.arbetsPlats
-                     
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThuesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsThuesday.text = info.arbetsPlats
-                        
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryWednesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsWednesday.text = info.arbetsPlats
-                   
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThursday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsThursday.text = info.arbetsPlats
-                      
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryFriday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsFriday.text = info.arbetsPlats
-            
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySaturday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsSaturday.text = info.arbetsPlats
-                
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySunday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.arbetsplatsSunday.text = info.arbetsPlats
-        
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-    }
-    
-    func setTimmarFromDatesThroughFireBase()
-    {
-        
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
-        
-        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
-        
-        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
-        
-        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
-        
-        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
-        
-        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
-        
-        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
-        
-        queryMonday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.timmarMonday.text = info.timmar
-                     
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThuesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.timmarThuesday.text = info.timmar
-                        
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryWednesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.timmarWednesday.text = info.timmar
-                   
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThursday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.timmarThursday.text = info.timmar
-                      
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryFriday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                       self.timmarFriday.text = info.timmar
-            
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySaturday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                       self.timmarSaturday.text = info.timmar
-                
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySunday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.timmarSunday.text = info.timmar
-        
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-    }
-    
-    func sendAndSaveTimereport() {
-        
-//        self.infoMonday = ""
-//        self.infoThuesday = ""
-//        self.infoWednesday = ""
-//        self.infoThuesday = ""
-//        self.infoFriday = ""
-//        self.infoSaturday = ""
-//        self.infoSunday = ""
-//        
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        let queryMonday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[0])
-        
-        let queryThuesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[1])
-        
-        let queryWednesday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[2])
-        
-        let queryThursday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[3])
-        
-        let queryFriday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[4])
-        
-        let querySaturday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[5])
-        
-        let querySunday = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: dates[6])
-        
-        
-        queryMonday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.infoMonday = info.toString()
-                     
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThuesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.infoThursday = info.toString()
-                        
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryWednesday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.infoWednesday = info.toString()
-                   
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryThursday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.infoThursday = info.toString()
-                      
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        queryFriday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                       self.infoFriday = info.toString()
-            
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySaturday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                       self.infoSaturday = info.toString()
-                
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
-        
-        querySunday.getDocuments() {
-            (snapshot , error) in
-            
-            guard let documents = snapshot?.documents else { return }
-            
-            if documents.count > 0 {
-                let document = documents[0]
-                let result = Result {
-                    try document.data(as: TimeReportInfo.self)
-                }
-                
-                switch result {
-                case .success(let info):
-                    if let info = info {
-                        self.infoSunday = info.toString()
+       
+        let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isGreaterThanOrEqualTo:  dates[0]).limit(to: 7)
 
-                    }
-                case .failure(let error) :
-                    print("error")
-                }
-            }
-        }
+        
+                query.getDocuments() {
+                    (snapshot , error) in
+        
+        
+                    guard let documents = snapshot?.documents else { return }
+        
+                    for document in documents {
+                        let result = Result {
+                            try document.data(as: TimeReportInfo.self)
+                        }
+        
+                        switch result {
+                        case .success(let info):
+                            if let info = info {
+                                if info.dates <= self.dates[6] {
+        
+                                    self.wholeWeekInfo.append(info)
+                                    if info.dates == self.dates[0] {
+                                        self.timmarMonday.text = info.timmar
+                                        self.arbetsplatsMonday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[1] {
+                                        self.timmarThuesday.text = info.timmar
+                                        self.arbetsplatsThuesday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[2] {
+                                        self.timmarWednesday.text = info.timmar
+                                        self.arbetsplatsWednesday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[3] {
+                                        self.timmarThursday.text = info.timmar
+                                        self.arbetsplatsThursday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[4] {
+                                        self.timmarFriday.text = info.timmar
+                                        self.arbetsplatsFriday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[5] {
+                                        self.timmarSaturday.text = info.timmar
+                                        self.arbetsplatsSaturday.text = info.arbetsPlats
+                                    }
+                                    
+                                    if info.dates == self.dates[6] {
+                                        self.timmarSunday.text = info.timmar
+                                        self.arbetsplatsSunday.text = info.arbetsPlats
+                                    }
+                                    
 
-//        self.wholeWeekInfo += infoMonday
+
+                                }
+        
+                            }
+                        case .failure(let error) :
+                            print(error)
+                        }
+                    }
+        
+                    self.createTextFile()
+        
+                }
+        
     }
     
+    
+    func createTextFile () {
+  
+        guard let currentWeek = chooseWeekTextField?.text else {return}
+      
+        let filename = getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
+     
+        for day in wholeWeekInfo {
+            do {
+                try day.toString().write(to: filename, atomically: true, encoding: .utf8)
+            } catch {
+                print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
+            }
+        }
+        
+        do {
+            let text = try String(contentsOf: filename, encoding: .utf8)
+            print("!!!!!!!!!!! " + text)
+            
+        } catch {}
+        
+        
+        print("textfileCreated")
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+
 }
 

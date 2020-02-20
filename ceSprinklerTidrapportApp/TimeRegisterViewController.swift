@@ -48,6 +48,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         db = Firestore.firestore()
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyBoard))
@@ -78,15 +79,19 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
-
+        
+//        checkBoxDagTrakt.isSelected = false
+//        checkBoxNattTrakt.isSelected = false
+//        checkBoxEgetBoende.isSelected = false
         
 
 
-        print(datesFromTimeRegisterSummaryVC )
+        
          let formater = DateFormatter()
         formater.dateFormat = "d LLL"
         print(formater.string(from: datesFromTimeRegisterSummaryVC!))
-        
+     
+        title = formater.string(from: datesFromTimeRegisterSummaryVC!)
         getUserDocumentsFromFireBase()
         
         }
@@ -104,12 +109,14 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         if sender.isSelected == false {
             checkBoxDagTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
             sender.isSelected = true
+            print("true")
 
         
         }
         else {
                 checkBoxDagTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
                     sender.isSelected = false
+            print("false")
 
                 
         }
@@ -133,9 +140,6 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         if sender.isSelected == false {
             checkBoxNattTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
             sender.isSelected = true
-
-            
-        
         }
         else {
                 checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
@@ -243,9 +247,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                         switch result {
                         case .success(let info) :
                             if let info = info {
-                                
-                                
-        //                        let str = info.toString()
+       
                                 self.docId = document.documentID
                                 
                                 self.arbetsplatsTextField.text = info.arbetsPlats
@@ -253,9 +255,10 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                                 self.hoursTimeRegisterTextField.text = info.timmar
                                 self.hoursTeamLeaderTextField.text = info.timmarLagbas
                                 self.hoursLopandeTextField.text = info.timmarLopande
-                                self.checkBoxDagTrakt.isEnabled = info.dagTrakt
-                                self.checkBoxNattTrakt.isEnabled = info.nattTrakt
-                                self.checkBoxEgetBoende.isEnabled = info.egetBoende
+                                self.checkBoxDagTrakt.isSelected = info.dagTrakt
+                                self.checkBoxNattTrakt.isSelected = info.nattTrakt
+                                self.checkBoxEgetBoende.isSelected = info.egetBoende
+                                print(self.checkBoxDagTrakt)
                                 
                                 print(info.dagTrakt)
                                 
@@ -287,7 +290,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                                 
                             }
                         case .failure(let error) :
-                            print("")
+                            print("failure")
                             
                             
                         }
