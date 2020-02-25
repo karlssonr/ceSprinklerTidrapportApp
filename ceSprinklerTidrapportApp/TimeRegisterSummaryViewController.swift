@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
-class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource {
+class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var mondayFromWeek: UILabel!
     @IBOutlet weak var thuesdayFromWeek: UILabel!
@@ -75,6 +76,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     var infoSaturday : String?
     var infoSunday : String?
     
+    var filename : URL?
+    
     
     
     override func viewDidLoad() {
@@ -82,6 +85,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         
         db = Firestore.firestore()
+
         
         
         
@@ -105,6 +109,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     @IBAction func skickaButtonPressed(_ sender: UIButton) {
         
         createTextFile()
+        sendEmail()
         
     }
     
@@ -191,13 +196,13 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         arbetsplatsSaturday.text = ""
         arbetsplatsSunday.text = ""
         
-        timmarMonday.text = "0"
-        timmarThuesday.text = "0"
-        timmarWednesday.text = "0"
-        timmarThursday.text = "0"
-        timmarFriday.text = "0"
-        timmarSaturday.text = "0"
-        timmarSunday.text = "0"
+        timmarMonday.text = ""
+        timmarThuesday.text = ""
+        timmarWednesday.text = ""
+        timmarThursday.text = ""
+        timmarFriday.text = ""
+        timmarSaturday.text = ""
+        timmarSunday.text = ""
         
         let todaysDate = Date()
         
@@ -266,76 +271,79 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     func setUpDataArbetsplatsAndTimmar() {
         
+        wholeWeekInfo = []
+        
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-       
+        
         let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isGreaterThanOrEqualTo:  dates[0]).limit(to: 7)
-
-        
-                query.getDocuments() {
-                    (snapshot , error) in
         
         
-                    guard let documents = snapshot?.documents else { return }
-        
-                    for document in documents {
-                        let result = Result {
-                            try document.data(as: TimeReportInfo.self)
-                        }
-        
-                        switch result {
-                        case .success(let info):
-                            if let info = info {
-                                if info.dates <= self.dates[6] {
-        
-                                    self.wholeWeekInfo.append(info)
-                                    if info.dates == self.dates[0] {
-                                        self.timmarMonday.text = info.timmar
-                                        self.arbetsplatsMonday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[1] {
-                                        self.timmarThuesday.text = info.timmar
-                                        self.arbetsplatsThuesday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[2] {
-                                        self.timmarWednesday.text = info.timmar
-                                        self.arbetsplatsWednesday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[3] {
-                                        self.timmarThursday.text = info.timmar
-                                        self.arbetsplatsThursday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[4] {
-                                        self.timmarFriday.text = info.timmar
-                                        self.arbetsplatsFriday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[5] {
-                                        self.timmarSaturday.text = info.timmar
-                                        self.arbetsplatsSaturday.text = info.arbetsPlats
-                                    }
-                                    
-                                    if info.dates == self.dates[6] {
-                                        self.timmarSunday.text = info.timmar
-                                        self.arbetsplatsSunday.text = info.arbetsPlats
-                                    }
-                                    
-
-
-                                }
-        
-                            }
-                        case .failure(let error) :
-                            print(error)
-                        }
-                    }
-        
-                    self.createTextFile()
-        
+        query.getDocuments() {
+            (snapshot , error) in
+            
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            for document in documents {
+                let result = Result {
+                    try document.data(as: TimeReportInfo.self)
                 }
+                
+                switch result {
+                case .success(let info):
+                    if let info = info {
+                        if info.dates <= self.dates[6] {
+                            
+                            
+                            self.wholeWeekInfo.append(info)
+                            if info.dates == self.dates[0] {
+                                self.timmarMonday.text = info.timmar
+                                self.arbetsplatsMonday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[1] {
+                                self.timmarThuesday.text = info.timmar
+                                self.arbetsplatsThuesday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[2] {
+                                self.timmarWednesday.text = info.timmar
+                                self.arbetsplatsWednesday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[3] {
+                                self.timmarThursday.text = info.timmar
+                                self.arbetsplatsThursday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[4] {
+                                self.timmarFriday.text = info.timmar
+                                self.arbetsplatsFriday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[5] {
+                                self.timmarSaturday.text = info.timmar
+                                self.arbetsplatsSaturday.text = info.arbetsPlats
+                            }
+                            
+                            if info.dates == self.dates[6] {
+                                self.timmarSunday.text = info.timmar
+                                self.arbetsplatsSunday.text = info.arbetsPlats
+                            }
+                            
+                            
+                            
+                        }
+                        
+                    }
+                case .failure(let error) :
+                    print(error)
+                }
+            }
+            
+//            self.createTextFile()
+            
+        }
         
     }
     
@@ -343,25 +351,41 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     func createTextFile () {
   
         guard let currentWeek = chooseWeekTextField?.text else {return}
+        
+        var week : String = ""
       
-        let filename = getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
+        self.filename = getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
      
+        
         for day in wholeWeekInfo {
-            do {
-                try day.toString().write(to: filename, atomically: true, encoding: .utf8)
-            } catch {
-                print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
-            }
+           
+            week += day.toString()
+     
         }
         
+        
         do {
-            let text = try String(contentsOf: filename, encoding: .utf8)
-            print("!!!!!!!!!!! " + text)
+//            try week.write(to: filename, atomically: true, encoding: .utf8)
+        } catch {
+            print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
+        }
+        
+        
+        
+        //------ test kod
+        do {
+//            let text = try String(contentsOf: filename, encoding: .utf8)
+//            print("!!!!!!!!!!! " + text)
             
         } catch {}
         
         
         print("textfileCreated")
+        // -- slut på testr
+        
+
+        
+        
     }
     
     func getDocumentsDirectory() -> URL {
@@ -370,5 +394,27 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     }
     
 
-}
+        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            controller.dismiss(animated: true)
+        }
+    
+    func sendEmail() {
+        
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["karlssonr1989@gmail.com"])
+            mail.setSubject("APP: ")
+          //  mail.setMessageBody(week, isHTML: true)
+            
+            
+            
+            
+            present(mail, animated: true)
+            print("email sent")
+        } else {
+            print("no email sent")
+        }
+    }
 
+}

@@ -229,6 +229,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
      }
     
     func getUserDocumentsFromFireBase() {
+        
                 guard let currentUserId = Auth.auth().currentUser?.uid else { return }
                 
                 let query = db.collection("users").document(currentUserId).collection("TimeReportInfos").whereField("dates", isEqualTo: datesFromTimeRegisterSummaryVC)
@@ -258,10 +259,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                                 self.checkBoxDagTrakt.isSelected = info.dagTrakt
                                 self.checkBoxNattTrakt.isSelected = info.nattTrakt
                                 self.checkBoxEgetBoende.isSelected = info.egetBoende
-                                print(self.checkBoxDagTrakt)
-                                
-                                print(info.dagTrakt)
-                                
+            
                                 
                                 if info.dagTrakt == true {
                                     self.checkBoxDagTrakt.setImage(UIImage(named: "icons8-checked-checkbox-100"), for: .normal)
@@ -290,7 +288,7 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
                                 
                             }
                         case .failure(let error) :
-                            print("failure")
+                            print(error)
                             
                             
                         }

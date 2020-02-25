@@ -66,19 +66,19 @@ class TimeReportInfo : Codable {
         
         str = arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
         
-        if dagTrakt {
+        if dagTrakt == false {
             str += "" + ","
         } else {
             str += "X" + ","
         }
         
-        if nattTrakt {
+        if nattTrakt == false {
             str += "" + ","
         } else {
             str += "X" + ","
         }
         
-        if egetBoende {
+        if egetBoende == false {
             str += "" + ","
         } else {
             str += "X" + ","
