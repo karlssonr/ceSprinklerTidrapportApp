@@ -77,6 +77,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     var infoSunday : String?
     
     var filename : URL?
+    var week : String = ""
     
     
     
@@ -341,7 +342,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
                 }
             }
             
-//            self.createTextFile()
+
             
         }
         
@@ -351,9 +352,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     func createTextFile () {
   
         guard let currentWeek = chooseWeekTextField?.text else {return}
-        
-        var week : String = ""
-      
+
         self.filename = getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
      
         
@@ -365,7 +364,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         
         do {
-//            try week.write(to: filename, atomically: true, encoding: .utf8)
+            try week.write(to: filename!, atomically: true, encoding: .utf8)
         } catch {
             print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
         }
@@ -374,8 +373,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         //------ test kod
         do {
-//            let text = try String(contentsOf: filename, encoding: .utf8)
-//            print("!!!!!!!!!!! " + text)
+            let text = try String(contentsOf: filename!, encoding: .utf8)
+            print("!!!!!!!!!!! " + text)
             
         } catch {}
         
@@ -405,7 +404,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             mail.mailComposeDelegate = self
             mail.setToRecipients(["karlssonr1989@gmail.com"])
             mail.setSubject("APP: ")
-          //  mail.setMessageBody(week, isHTML: true)
+            mail.setMessageBody(week, isHTML: true)
             
             
             
