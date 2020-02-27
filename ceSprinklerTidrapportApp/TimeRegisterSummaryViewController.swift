@@ -362,7 +362,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         for day in wholeWeekInfo {
            
-            week += day.toString()
+            week +=  day.toString()
      
         }
         
@@ -412,8 +412,10 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             mail.setToRecipients(["karlssonr1989@gmail.com"])
             mail.setSubject("APP: Tidrapport")
             mail.setMessageBody("Tidrapport för vecka: " + currentWeek, isHTML: true)
-            if let fileData = NSData(contentsOfFile: filename.absoluteString) {
-                mail.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "data")
+            if let fileData = Data(base64Encoded: week) {
+                mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "data")
+            } else {
+                print("fildata error")
             }
             
 
