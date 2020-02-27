@@ -74,7 +74,7 @@ class TimeReportInfo : Codable {
         
        // str += weekday
         
-        str += date
+        str += date + ","
         
         str += arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
         
