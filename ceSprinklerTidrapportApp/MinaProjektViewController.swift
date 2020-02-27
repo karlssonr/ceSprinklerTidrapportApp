@@ -12,6 +12,8 @@ class MinaProjektViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Mina Projekt"
 
         // Do any additional setup after loading the view.
     }

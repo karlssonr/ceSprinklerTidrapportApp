@@ -102,6 +102,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         chooseWeekTextField?.inputView = picker
         
+        title = "Ny Tidrapport"
+        
         
         
         
@@ -353,8 +355,10 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
   
         guard let currentWeek = chooseWeekTextField?.text else {return}
 
-        self.filename = getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
+        filename =  getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
+       
      
+        guard let filename = filename else {return}
         
         for day in wholeWeekInfo {
            
@@ -364,7 +368,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         
         do {
-            try week.write(to: filename!, atomically: true, encoding: .utf8)
+            try week.write(to: filename, atomically: true, encoding: .utf8)
         } catch {
             print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
         }
@@ -373,7 +377,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         //------ test kod
         do {
-            let text = try String(contentsOf: filename!, encoding: .utf8)
+            let text = try String(contentsOf: filename, encoding: .utf8)
             print("!!!!!!!!!!! " + text)
             
         } catch {}
@@ -399,16 +403,20 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     func sendEmail() {
         
+        guard let currentWeek = chooseWeekTextField?.text else {return}
+        guard let filename = filename else {return}
+        
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["karlssonr1989@gmail.com"])
-            mail.setSubject("APP: ")
-            mail.setMessageBody(week, isHTML: true)
+            mail.setSubject("APP: Tidrapport")
+            mail.setMessageBody("Tidrapport för vecka: " + currentWeek, isHTML: true)
+            if let fileData = NSData(contentsOfFile: filename.absoluteString) {
+                mail.addAttachmentData(fileData as Data, mimeType: "text/txt", fileName: "data")
+            }
             
-            
-            
-            
+
             present(mail, animated: true)
             print("email sent")
         } else {

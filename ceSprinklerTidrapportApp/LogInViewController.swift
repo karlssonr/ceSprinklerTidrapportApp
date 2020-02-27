@@ -27,6 +27,8 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
         auth = Auth.auth()
         emailTextField.delegate = self
         passwordTextField.delegate = self
+        
+        
 
         
         view.addGestureRecognizer(tap)
@@ -37,16 +39,17 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
      */
     override func viewDidAppear(_ animated: Bool) {
         if let user = self.auth.currentUser {
+            let changeRequest = user.createProfileChangeRequest()
+            changeRequest.displayName = "Robin"; changeRequest.commitChanges { (error) in                         }
             performSegue(withIdentifier: segueID, sender: self)
         }
+        
     }
     
     
     @IBAction func logInButton(_ sender: UIButton) {
-        
 
         logUserIn()
-//        logUserIn(withEmail: email, password: password)
         
     }
     
@@ -70,6 +73,8 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
         auth.signIn(withEmail: email, password: password) { user, error in
             if let user = self.auth.currentUser {
                 self.performSegue(withIdentifier: self.segueID, sender: self)
+                
+                
             }
             else {
                 print("Error: \(error)")

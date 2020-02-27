@@ -19,6 +19,13 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         auth = Auth.auth()
+        let inloggadSom = "Inloggad som: "
+        let user = Auth.auth().currentUser
+        
+        guard let currentUser = user else {return}
+        title = String(inloggadSom + (currentUser.displayName!))
+        
+        self.navigationItem.setHidesBackButton(true, animated: false)
 
 
         // Do any additional setup after loading the view.
