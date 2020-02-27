@@ -416,7 +416,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             mail.setMessageBody("Tidrapport för vecka: " + currentWeek, isHTML: true)
             do {
                 let fileData = try Data(contentsOf: filename)
-                mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "vecka" + currentWeek + ".cvs")
+                mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "vecka" + currentWeek + ".csv")
             } catch {
                 print("fildata error")
             }
