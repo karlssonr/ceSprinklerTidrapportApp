@@ -64,7 +64,19 @@ class TimeReportInfo : Codable {
     func toString() -> String {
         var str = ""
         
-        str = arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
+        let formater = DateFormatter()
+        formater.dateFormat = "d LLL"
+        
+        let date = formater.string(from: dates)
+        
+       // formater.dateFormat = "dag"
+        //let weekday = formater.string(from: dates)
+        
+       // str += weekday
+        
+        str += date
+        
+        str += arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
         
         if dagTrakt == false {
             str += "" + ","

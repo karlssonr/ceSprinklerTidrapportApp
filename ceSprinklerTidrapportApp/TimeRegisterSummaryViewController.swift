@@ -218,7 +218,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         let formater = DateFormatter()
         formater.dateFormat = "d LLL"
-        // print(formater.string(from: date) )
+    
         
         if let monday = calendar.date(byAdding: .day, value: 1, to: date) {
             dates.append(monday)
@@ -352,17 +352,19 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     
     func createTextFile () {
-  
+        
+        self.week = ""
+        
         guard let currentWeek = chooseWeekTextField?.text else {return}
 
         filename =  getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
        
      
         guard let filename = filename else {return}
-        
+        self.week += "Datum," + "Arbetsplats," + "Projekt Nr," + "Tim," + "Tim Lagbas," + "Tim Löpande," + "Dagtrakt," + "Nattrakt," + "Eget Boende," + "\n"
         for day in wholeWeekInfo {
            
-            week +=  day.toString()
+            week +=  day.toString() + "\n"
      
         }
         
@@ -378,7 +380,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         //------ test kod
         do {
             let text = try String(contentsOf: filename, encoding: .utf8)
-            print("!!!!!!!!!!! " + text)
+            print(text)
             
         } catch {}
         
@@ -410,11 +412,12 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients(["karlssonr1989@gmail.com"])
-            mail.setSubject("APP: Tidrapport")
+            mail.setSubject("Tidrapport vecka: " + currentWeek)
             mail.setMessageBody("Tidrapport för vecka: " + currentWeek, isHTML: true)
-            if let fileData = Data(base64Encoded: week) {
+            do {
+                let fileData = try Data(contentsOf: filename)
                 mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "data")
-            } else {
+            } catch {
                 print("fildata error")
             }
             

@@ -80,11 +80,6 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         checkBoxEgetBoende.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
         
-//        checkBoxDagTrakt.isSelected = false
-//        checkBoxNattTrakt.isSelected = false
-//        checkBoxEgetBoende.isSelected = false
-        
-
 
         
          let formater = DateFormatter()
@@ -144,8 +139,6 @@ class TimeRegisterViewController: UIViewController , UIPickerViewDelegate, UIPic
         else {
                 checkBoxNattTrakt.setImage(UIImage(named: "icons8-unchecked-checkbox-100"), for: .normal)
                     sender.isSelected = false
-//            answerNattTrakt = " "
-                
         }
     }
     
