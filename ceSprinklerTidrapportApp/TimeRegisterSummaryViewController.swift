@@ -361,7 +361,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
        
      
         guard let filename = filename else {return}
-        self.week += "Datum," + "Arbetsplats," + "Projekt Nr," + "Tim," + "Tim Lagbas," + "Tim Löpande," + "Dagtrakt," + "Nattrakt," + "Eget Boende," + "\n"
+        self.week += "Datum," + "Dag," + "Arbetsplats," + "Projekt Nr," + "Tim," + "Tim Lagbas," + "Tim Löpande," + "Dagtrakt," + "Nattrakt," + "Eget Boende," + "\n"
         for day in wholeWeekInfo {
            
             week +=  day.toString() + "\n"
@@ -416,7 +416,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             mail.setMessageBody("Tidrapport för vecka: " + currentWeek, isHTML: true)
             do {
                 let fileData = try Data(contentsOf: filename)
-                mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "data")
+                mail.addAttachmentData(fileData, mimeType: "text/txt", fileName: "vecka" + currentWeek + ".cvs")
             } catch {
                 print("fildata error")
             }

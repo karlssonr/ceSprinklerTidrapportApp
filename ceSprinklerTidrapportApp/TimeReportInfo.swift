@@ -69,14 +69,18 @@ class TimeReportInfo : Codable {
         
         let date = formater.string(from: dates)
         
-       // formater.dateFormat = "dag"
-        //let weekday = formater.string(from: dates)
+        let dateFormatter = DateFormatter()
         
-       // str += weekday
+        dateFormatter.dateFormat = "EEEE"
         
+       
+        let weekday = dateFormatter.string(from: dates)
+         
         str += date + ","
         
-        str += arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande
+        str += weekday + ","
+        
+        str += arbetsPlats + "," + projektNummer + "," + timmar + "," + timmarLagbas + "," + timmarLopande + ","
         
         if dagTrakt == false {
             str += "" + ","
@@ -102,4 +106,3 @@ class TimeReportInfo : Codable {
     
     
 }
-
