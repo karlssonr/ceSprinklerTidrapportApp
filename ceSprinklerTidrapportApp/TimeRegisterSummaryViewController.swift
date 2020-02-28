@@ -260,6 +260,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             sundayFromWeek.text = sun
         }
 
+        
         setUpDataArbetsplatsAndTimmar()
         
         
