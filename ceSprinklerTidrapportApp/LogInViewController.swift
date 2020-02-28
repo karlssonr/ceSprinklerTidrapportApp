@@ -23,6 +23,7 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dissmissKeyBoard))
         auth = Auth.auth()
         emailTextField.delegate = self
@@ -32,11 +33,9 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
 
         
         view.addGestureRecognizer(tap)
-        // Do any additional setup after loading the view.
+
     }
-    /*
-     Test comment
-     */
+
     override func viewDidAppear(_ animated: Bool) {
         if let user = self.auth.currentUser {
             let changeRequest = user.createProfileChangeRequest()
@@ -65,6 +64,7 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
         return true
     }
     
+    // function for user log in
     func logUserIn() {
         
         guard let email = emailTextField.text else { return }

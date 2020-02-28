@@ -220,41 +220,41 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         formater.dateFormat = "d LLL"
     
         
-        if let monday = calendar.date(byAdding: .day, value: 1, to: date) {
+        if let monday = calendar.date(byAdding: .day, value: 0, to: date) {
             dates.append(monday)
             
             let mon = formater.string(from: monday)
             mondayFromWeek.text = mon
         }
-        if let thuesday = calendar.date(byAdding: .day, value: 2, to: date) {
+        if let thuesday = calendar.date(byAdding: .day, value: 1, to: date) {
             dates.append(thuesday)
             let thu = formater.string(from: thuesday)
             thuesdayFromWeek.text = thu
             
         }
-        if let wednesday = calendar.date(byAdding: .day, value: 3, to: date) {
+        if let wednesday = calendar.date(byAdding: .day, value: 2, to: date) {
             dates.append(wednesday)
             let wed = formater.string(from: wednesday)
             wednesdayFromWeek.text = wed
             
         }
-        if let thursday = calendar.date(byAdding: .day, value: 4, to: date) {
+        if let thursday = calendar.date(byAdding: .day, value: 3, to: date) {
             dates.append(thursday)
             let thur = formater.string(from: thursday)
             thursdayFromWeek.text = thur
             
         }
-        if let friday = calendar.date(byAdding: .day, value: 5, to: date) {
+        if let friday = calendar.date(byAdding: .day, value: 4, to: date) {
             dates.append(friday)
             let fri = formater.string(from: friday)
             fridayFromWeek.text = fri
         }
-        if let saturday = calendar.date(byAdding: .day, value: 6, to: date) {
+        if let saturday = calendar.date(byAdding: .day, value: 5, to: date) {
             dates.append(saturday)
             let sat = formater.string(from: saturday)
             saturdayFromWeek.text = sat
         }
-        if let sunday = calendar.date(byAdding: .day, value: 7, to: date) {
+        if let sunday = calendar.date(byAdding: .day, value: 6, to: date) {
             dates.append(sunday)
             let sun = formater.string(from: sunday)
             sundayFromWeek.text = sun
@@ -361,6 +361,9 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
        
      
         guard let filename = filename else {return}
+        
+        self.week += "Namn: Robin Karlsson" + "\n"
+        self.week += "Anställnings Nummer: 215" + "\n"
         self.week += "Datum," + "Dag," + "Arbetsplats," + "Projekt Nr," + "Tim," + "Tim Lagbas," + "Tim Löpande," + "Dagtrakt," + "Nattrakt," + "Eget Boende," + "\n"
         for day in wholeWeekInfo {
            
@@ -376,18 +379,16 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         }
         
         
-        
-        //------ test kod
+     
         do {
             let text = try String(contentsOf: filename, encoding: .utf8)
-            print(text)
+            print("!!!! David: \n \(text)")
             
         } catch {}
         
         
         print("textfileCreated")
-        // -- slut på testr
-        
+
 
         
         

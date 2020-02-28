@@ -27,8 +27,6 @@ class HomeViewController: UIViewController {
         
         self.navigationItem.setHidesBackButton(true, animated: false)
 
-
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func logOutButton(_ sender: UIButton) {
@@ -38,7 +36,6 @@ class HomeViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             self.dismiss(animated: true, completion: nil)
 
-//            performSegue(withIdentifier: segueIDToLogInController, sender: self)
         }
         catch {}
         
