@@ -12,49 +12,42 @@ import Firebase
 class HomeViewController: UIViewController {
     
     var auth :Auth!
-    let segueID = "segueToLogInController"
+    let segueIDToLogInController = "segueToLogInController"
+    let segueIDToMinaProjektController = "segueToMinaProjektController"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         auth = Auth.auth()
+        
+        let inloggadSom = "Inloggad som: "
+        let user = Auth.auth().currentUser
+        
+        guard let currentUser = user else {return}
+        
+        title = String(inloggadSom + (currentUser.displayName!))
+        
+        //hide back button for navigation bar
+        self.navigationItem.setHidesBackButton(true, animated: false)
 
-
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func logOutButton(_ sender: UIButton) {
         
         do {
             try auth.signOut()
-            performSegue(withIdentifier: segueID, sender: self)
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+
         }
         catch {}
         
     }
     
-    
-    
-    
-//    func athenticateUserAndConfigureView() {
-//
-//        if Auth.auth().currentUser == nil {
-//            DispatchQueue.main.async {
-//                let navController = UINavigationController(rootViewController: LogInViewController())
-//                self.present(navController, animated: true, completion: nil)
-//
-//            }
-//        }
-//    }
-//
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func minaProjektButton(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: segueIDToMinaProjektController, sender: self)
+        
     }
-    */
 
 }
