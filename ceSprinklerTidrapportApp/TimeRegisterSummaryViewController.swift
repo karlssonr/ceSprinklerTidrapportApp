@@ -12,6 +12,7 @@ import MessageUI
 
 class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource, MFMailComposeViewControllerDelegate {
     
+    //Labels for dates
     @IBOutlet weak var mondayFromWeek: UILabel!
     @IBOutlet weak var thuesdayFromWeek: UILabel!
     @IBOutlet weak var wednesdayFromWeek: UILabel!
@@ -22,7 +23,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     @IBOutlet weak var dateViewTidRapp: UIView!
     @IBOutlet weak var chooseWeekTextField: UITextField!
     
-    
+    //labels for "arbetsplats"
     @IBOutlet weak var arbetsplatsMonday: UILabel!
     @IBOutlet weak var arbetsplatsThuesday: UILabel!
     @IBOutlet weak var arbetsplatsWednesday: UILabel!
@@ -31,7 +32,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     @IBOutlet weak var arbetsplatsSaturday: UILabel!
     @IBOutlet weak var arbetsplatsSunday: UILabel!
     
-    
+    //labels for "timmar"
     @IBOutlet weak var timmarMonday: UILabel!
     @IBOutlet weak var timmarThuesday: UILabel!
     @IBOutlet weak var timmarWednesday: UILabel!
@@ -52,6 +53,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     var picker = UIPickerView()
     
     var dates : [Date] = []
+    
     var mondaySegueID = "segueFromMonday"
     var thuesdaySegueID = "segueFromThuesday"
     var wednesdaySegueID = "segueFromWednesday"
@@ -86,16 +88,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         
         db = Firestore.firestore()
-
-        
-        
-        
-        
-        
-        
-        
-        
-        // om vi lyckas läsa in något i weeksaved -> ska köra metoden updateDatesfrom....
         
         picker.delegate = self
         picker.dataSource = self
@@ -103,9 +95,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         chooseWeekTextField?.inputView = picker
         
         title = "Ny Tidrapport"
-        
-        
-        
         
     }
     
@@ -120,13 +109,13 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         
+        
+        //loading last viewed week
         let weekSaved = defaults.integer(forKey: weekKey)
         if weekSaved != 0 {
             
             updateDatesFrom(weekNumber: weekSaved)
             chooseWeekTextField.text = String(weekSaved)
-    
-            
         }
         
     }
@@ -134,7 +123,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
     
     
     
-    
+    //seding date from "TimeRegisterSummaryViewController" to "TimeRegisterViewController"
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let timeRegisterVC = segue.destination as? TimeRegisterViewController else {return}
         if segue.identifier == mondaySegueID {
@@ -160,35 +149,33 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         }
     }
     
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return chooseWeekArray.count
     }
+    
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return chooseWeekArray[row]
         
     }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         chooseWeekTextField.text = chooseWeekArray[row]
         guard let weekNumber = Int(chooseWeekArray[row]) else {return}
         updateDatesFrom(weekNumber: weekNumber)
         
-        
         // spara weeknumber i user defaults
         defaults.set(weekNumber, forKey: weekKey)
-        
-        
-        
         
         self.view.endEditing(false)
         saveSelectedRow(row: row)
     }
     
-    
+    //set up dates from week choosen
     func updateDatesFrom(weekNumber: Int) {
         dates = []
         arbetsplatsMonday.text = ""
@@ -218,7 +205,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         
         let formater = DateFormatter()
         formater.dateFormat = "d LLL"
-    
+        
         
         if let monday = calendar.date(byAdding: .day, value: 0, to: date) {
             dates.append(monday)
@@ -259,10 +246,8 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
             let sun = formater.string(from: sunday)
             sundayFromWeek.text = sun
         }
-
         
         setUpDataArbetsplatsAndTimmar()
-        
         
     }
     
@@ -273,6 +258,7 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         defaults.synchronize()
     }
     
+    //getting data from firebase and setting up data in to "Arbetsplats" and "Timmar" labels, and saving data into wholeWeekInfo array
     func setUpDataArbetsplatsAndTimmar() {
         
         wholeWeekInfo = []
@@ -297,7 +283,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
                 case .success(let info):
                     if let info = info {
                         if info.dates <= self.dates[6] {
-                            
                             
                             self.wholeWeekInfo.append(info)
                             if info.dates == self.dates[0] {
@@ -335,8 +320,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
                                 self.arbetsplatsSunday.text = info.arbetsPlats
                             }
                             
-                            
-                            
                         }
                         
                     }
@@ -344,8 +327,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
                     print(error)
                 }
             }
-            
-
             
         }
         
@@ -357,19 +338,19 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         self.week = ""
         
         guard let currentWeek = chooseWeekTextField?.text else {return}
-
+        
         filename =  getDocumentsDirectory().appendingPathComponent("vecka" + currentWeek + ".cvs")
-       
-     
+        
+        
         guard let filename = filename else {return}
         
         self.week += "Namn: Robin Karlsson" + "\n"
         self.week += "Anställnings Nummer: 215" + "\n"
         self.week += "Datum," + "Dag," + "Arbetsplats," + "Projekt Nr," + "Tim," + "Tim Lagbas," + "Tim Löpande," + "Dagtrakt," + "Nattrakt," + "Eget Boende," + "\n"
         for day in wholeWeekInfo {
-           
+            
             week +=  day.toString() + "\n"
-     
+            
         }
         
         
@@ -378,21 +359,6 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         } catch {
             print("failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding")
         }
-        
-        
-     
-        do {
-            let text = try String(contentsOf: filename, encoding: .utf8)
-            print("!!!! David: \n \(text)")
-            
-        } catch {}
-        
-        
-        print("textfileCreated")
-
-
-        
-        
     }
     
     func getDocumentsDirectory() -> URL {
@@ -400,10 +366,10 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
         return paths[0]
     }
     
-
-        func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-            controller.dismiss(animated: true)
-        }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
     
     func sendEmail() {
         
@@ -423,12 +389,12 @@ class TimeRegisterSummaryViewController: UIViewController , UIPickerViewDelegate
                 print("fildata error")
             }
             
-
+            
             present(mail, animated: true)
             print("email sent")
         } else {
             print("no email sent")
         }
     }
-
+    
 }

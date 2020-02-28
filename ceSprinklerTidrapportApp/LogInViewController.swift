@@ -28,10 +28,7 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
         auth = Auth.auth()
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        
-        
-
-        
+  
         view.addGestureRecognizer(tap)
 
     }
@@ -82,16 +79,5 @@ class LogInViewController: UIViewController , UITextFieldDelegate{
            
         }
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-// print("Failed to sign in user in with error: ", error.localizedDescription)
-//     print("Succesfully logged user in..")
 }

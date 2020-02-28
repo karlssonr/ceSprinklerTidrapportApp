@@ -19,12 +19,15 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         auth = Auth.auth()
+        
         let inloggadSom = "Inloggad som: "
         let user = Auth.auth().currentUser
         
         guard let currentUser = user else {return}
+        
         title = String(inloggadSom + (currentUser.displayName!))
         
+        //hide back button for navigation bar
         self.navigationItem.setHidesBackButton(true, animated: false)
 
     }
@@ -46,16 +49,5 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: segueIDToMinaProjektController, sender: self)
         
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
